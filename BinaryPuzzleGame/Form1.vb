@@ -1,6 +1,7 @@
 ﻿Public Class Form1
     Dim buttonArray(6, 6) As Button
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim grid(6, 6)
         'test
         'tyvgy
         'test2
@@ -29,6 +30,10 @@
                 End If
             Next row
         Next column
+
+    End Sub
+
+    Private Sub locatePairs()
 
     End Sub
 End Class
