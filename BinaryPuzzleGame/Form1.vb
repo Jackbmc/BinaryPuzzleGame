@@ -1,4 +1,6 @@
-﻿Public Class Form1
+﻿Imports System.IO
+
+Public Class Form1
     Dim buttonArray(6, 6) As Button
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim grid(6, 6)
@@ -32,11 +34,45 @@
 
     End Sub
 
+<<<<<<< HEAD
     Private Sub Button_Click(sender As Object, e As System.EventArgs)
 
+=======
+    Private Sub loadPuzzle()
+        Dim filepath As String = "puzzle.txt"
+
+        If File.Exists(filepath) = False Then
+            File.Create(filepath).Dispose()
+        End If
+
+        If File.Exists(filepath) = True Then
+            ' Read the leaderboard data from the file
+            Dim leaderboard As List(Of String) = File.ReadAllLines(filepath).ToList()
+            Dim existingPlayerFound As Boolean = False
+            For i As Integer = 0 To leaderboard.Count - 1
+                Dim playerName As String = leaderboard(i).Substring(0, 3)
+                Dim playerScore As Integer = CInt(leaderboard(i).Substring(4))
+                If playerName = Name Then
+                    ' Update the score if the player already exists in the leaderboard
+                    playerScore = playerScore + 1
+                    leaderboard(i) = playerName & "," & CStr(playerScore)
+                    existingPlayerFound = True
+                    i = leaderboard.Count - 1
+                End If
+            Next i
+        End If
+>>>>>>> 2138f221acbf7c6d2a815aa186d58df2c9dba9e5
     End Sub
 
     Private Sub locatePairs()
 
+    End Sub
+
+    Private Sub checkgrid()
+        For i = 0 To 5
+            For j = 0 To 5
+            Next j
+
+        Next i
     End Sub
 End Class
