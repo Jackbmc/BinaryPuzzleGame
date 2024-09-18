@@ -3,6 +3,8 @@
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim grid(6, 6)
         'test
+        'tyvgy
+        'test2
         generateButtons()
     End Sub
 
