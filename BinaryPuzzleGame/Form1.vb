@@ -2,6 +2,8 @@
     Dim buttonArray(6, 6) As Button
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'test
+        'tyvgy
+        'test2
         generateButtons()
     End Sub
 
