@@ -31,6 +31,10 @@
 
     End Sub
 
+    Private Sub loadPuzzle()
+
+    End Sub
+
     Private Sub locatePairs()
 
     End Sub
