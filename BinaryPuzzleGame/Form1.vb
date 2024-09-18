@@ -23,21 +23,15 @@ Public Class Form1
                 Button.Location = New Point(2 * column * 30 + 450, 2 * row * 30 + 100)
 
                 AddHandler Button.Click, AddressOf Button_Click
-
-                If (row + column) Mod 2 = 0 Then
-                    Button.BackColor = Color.Beige
-                Else
-                    Button.BackColor = Color.BurlyWood
-                End If
             Next row
         Next column
 
     End Sub
 
-<<<<<<< HEAD
     Private Sub Button_Click(sender As Object, e As System.EventArgs)
+        MsgBox("test")
+    End Sub
 
-=======
     Private Sub loadPuzzle()
         Dim filepath As String = "puzzle.txt"
 
@@ -61,7 +55,6 @@ Public Class Form1
                 End If
             Next i
         End If
->>>>>>> 2138f221acbf7c6d2a815aa186d58df2c9dba9e5
     End Sub
 
     Private Sub locatePairs()
