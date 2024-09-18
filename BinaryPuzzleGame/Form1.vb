@@ -63,4 +63,12 @@ Public Class Form1
     Private Sub locatePairs()
 
     End Sub
+
+    Private Sub checkgrid()
+        For i = 0 To 5
+            For j = 0 To 5
+            Next j
+
+        Next i
+    End Sub
 End Class
