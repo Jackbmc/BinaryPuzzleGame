@@ -2,9 +2,6 @@
     Dim buttonArray(6, 6) As Button
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim grid(6, 6)
-        'test
-        'tyvgy
-        'test2
         generateButtons()
     End Sub
 
@@ -23,6 +20,8 @@
                 Button.Left = row * 30
                 Button.Location = New Point(2 * column * 30 + 450, 2 * row * 30 + 100)
 
+                AddHandler Button.Click, AddressOf Button_Click
+
                 If (row + column) Mod 2 = 0 Then
                     Button.BackColor = Color.Beige
                 Else
@@ -30,6 +29,10 @@
                 End If
             Next row
         Next column
+
+    End Sub
+
+    Private Sub Button_Click(sender As Object, e As System.EventArgs)
 
     End Sub
 
