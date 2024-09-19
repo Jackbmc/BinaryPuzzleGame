@@ -20,7 +20,7 @@ Public Class Form1
             Next
         Next
 
-        ListBox1.Items.Add(locateNumberTrios(puzzleGrid))
+        'ListBox1.Items.Add(locateNumberTrios(puzzleGrid))
     End Sub
 
     Private Sub initalisepArray()
