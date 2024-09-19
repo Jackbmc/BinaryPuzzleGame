@@ -63,8 +63,8 @@ Public Class Form1
 
     Private Sub generateButtons()
         'generate each square on the chessboard as a Button
-        For column = 1 To 6
-            For row = 1 To 6
+        For row = 1 To 6
+            For column = 1 To 6
                 Dim Button = New Button
                 arrButtons(row, column) = Button
 
@@ -77,8 +77,8 @@ Public Class Form1
                 Button.Location = New Point(2 * column * 30 + 100, 2 * row * 30 + 100)
 
                 AddHandler Button.Click, AddressOf Button_Click
-            Next row
-        Next column
+            Next column
+        Next row
 
     End Sub
 
@@ -137,9 +137,9 @@ Public Class Form1
     End Sub
 
     Private Sub checkAdjacent()
+        Dim temp
         For x = 1 To 6
             For y = 1 To 6
-
             Next
         Next
     End Sub
