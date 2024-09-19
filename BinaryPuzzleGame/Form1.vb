@@ -20,7 +20,7 @@ Public Class Form1
                 Button.Height = 60
                 Button.Visible = True
                 Button.Left = row * 30
-                Button.Location = New Point(2 * column * 30 + 450, 2 * row * 30 + 100)
+                Button.Location = New Point(2 * column * 30 + 100, 2 * row * 30 + 100)
 
                 AddHandler Button.Click, AddressOf Button_Click
             Next row
