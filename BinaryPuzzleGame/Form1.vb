@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 
 Public Class Form1
-    Dim buttonArray(6, 6) As Button
+    Dim arrButtons(6, 6) As Button
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim grid(6, 6)
         generateButtons()
@@ -12,7 +12,7 @@ Public Class Form1
         For column = 1 To 6
             For row = 1 To 6
                 Dim Button = New Button
-                buttonArray(row, column) = Button
+                arrButtons(row, column) = Button
 
                 Button.Name = Format(row) + Format(column)
                 Button.Parent = Me
@@ -28,8 +28,30 @@ Public Class Form1
 
     End Sub
 
+    Dim cX, cY
     Private Sub Button_Click(sender As Object, e As System.EventArgs)
-        MsgBox("test")
+        Dim clickedButton As Button = CType(sender, Button)
+        getPos(clickedButton, cX, cY)
+
+        If arrButtons(cX, cY).Text = "1" Then
+            arrButtons(cX, cY).Text = "0"
+        ElseIf arrButtons(cX, cY).Text = "0" Then
+            arrButtons(cX, cY).Text = "1"
+        Else
+            arrButtons(cX, cY).Text = "1"
+        End If
+    End Sub
+
+    Private Sub getPos(clickedButton As Button, ByRef x As Integer, ByRef y As Integer)
+        'Gets the position of the clicked button and sets the x and y values of said button
+        For i = 1 To 6
+            For j = 1 To 6
+                If arrButtons(i, j) Is clickedButton Then
+                    x = i
+                    y = j
+                End If
+            Next j
+        Next i
     End Sub
 
     Private Sub loadPuzzle()
