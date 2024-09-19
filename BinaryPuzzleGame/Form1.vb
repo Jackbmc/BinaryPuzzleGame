@@ -102,6 +102,5 @@ Public Class Form1
             Else
                 Return False
             End If
-
     End Function
 End Class
