@@ -2,7 +2,7 @@
 
 Public Class Form1
     Dim arrButtons(6, 6) As Button
-    Dim puzzleGrid(6, 6)
+    Dim puzzleGrid(6, 6) As Integer
     Dim isValid As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         generateButtons()
@@ -121,7 +121,7 @@ Public Class Form1
                     counter = counter + 1
                 End If
             Next
-            If counter > 3 Then
+            If counter > 3 Or counter < 3 Then
                 valid = False
             End If
             counter = 0
@@ -135,7 +135,7 @@ Public Class Form1
                     counter = counter + 1
                 End If
             Next
-            If counter > 3 Then
+            If counter > 3 Or counter < 3 Then
                 valid = False
             End If
             counter = 0
