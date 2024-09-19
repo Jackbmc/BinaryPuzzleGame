@@ -2,8 +2,8 @@
 
 Public Class Form1
     Dim arrButtons(6, 6) As Button
+    Dim puzzleGrid(6, 6)
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim puzzleGrid(6, 6)
         generateButtons()
     End Sub
 
@@ -81,6 +81,14 @@ Public Class Form1
         Next i
     End Sub
 
+    Private Sub checkAdjacent()
+        For x = 1 To 6
+            For y = 1 To 6
+
+            Next
+        Next
+    End Sub
+
     Private Sub loadPuzzle()
         Dim filepath As String = "puzzle.txt"
 
@@ -110,11 +118,17 @@ Public Class Form1
 
     End Sub
 
-    Private Sub checkgrid()
-        For i = 0 To 5
-            For j = 0 To 5
-            Next j
+    Private Function checkgrid(puzzleGrid) As Boolean
+        Dim total As Integer = 0
+        For i = 1 To 6
+            For j = 1 To 6
+                total += puzzleGrid(i, j)
+            Next i
+            If total = 3 * 6 Then
+                Return True
+            Else
+                Return False
+            End If
 
-        Next i
-    End Sub
+    End Function
 End Class
