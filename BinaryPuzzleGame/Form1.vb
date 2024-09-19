@@ -83,11 +83,17 @@ Public Class Form1
 
     End Sub
 
-    Private Sub checkgrid()
+    Private Function checkgrid(puzzleGrid) As Boolean
         Dim total As Integer = 0
         For i = 1 To 6
             For j = 1 To 6
-                total += 
+                total += puzzleGrid(i, j)
             Next i
-    End Sub
+            If total = 3 * 6 Then
+                Return True
+            Else
+                Return False
+            End If
+
+    End Function
 End Class
