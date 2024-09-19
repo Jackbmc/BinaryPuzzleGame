@@ -42,27 +42,10 @@
     End Sub
 
     Private Sub checkgrid()
-        Dim row(6) As Integer
+        Dim total As Integer = 0
         For i = 1 To 6
             For j = 1 To 6
-                row()
-            Next j
-        Next i
-    End Sub
-    Private Sub sumrows()
-        Dim totalrow(6) = 0
-        For i = 1 To 6
-            For j = 1 To 6
-                totalrow(i) += grid(i, j)
-            Next j
-        Next i
-        Dim totalcolum(6) = 0
-        For i = 1 To 6
-            For j = 1 To 6
-                totalcolum(i) += grid(j, i)
-            Next j
-        Next i
-
-        Return totalrow, totalcolum
+                total += 
+            Next i
     End Sub
 End Class
