@@ -2,7 +2,8 @@
 
 Public Class Form1
     Dim arrButtons(6, 6) As Button
-    Dim puzzleGrid(6, 6) As Integer
+    Dim puzzleGrid(6, 6)
+    Dim isValid As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         generateButtons()
         initalisepArray()
@@ -155,6 +156,10 @@ Public Class Form1
         Else
             arrButtons(cX, cY).Text = "1"
         End If
+
+        puzzleGrid(cX, cY) = arrButtons(cX, cY).Text
+
+        checkAdjacent()
     End Sub
 
     Private Sub getPos(clickedButton As Button, ByRef x As Integer, ByRef y As Integer)
@@ -172,7 +177,20 @@ Public Class Form1
     Private Sub checkAdjacent()
         Dim temp
         For x = 1 To 6
+            For y = 1 To 4
+                If puzzleGrid(x, y) <> "" AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 1) And puzzleGrid(x, y) = puzzleGrid(x, y + 2) Then
+                    MsgBox("hor invalid")
+                    isValid = False
+                End If
+
+            Next
+        Next
+        For x = 1 To 4
             For y = 1 To 6
+                If puzzleGrid(x, y) <> "" AndAlso puzzleGrid(x, y) = puzzleGrid(x + 1, y) And puzzleGrid(x, y) = puzzleGrid(x + 2, y) Then
+                    MsgBox("vert invalid")
+                    isValid = False
+                End If
             Next
         Next
     End Sub
