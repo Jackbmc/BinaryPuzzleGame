@@ -2,9 +2,63 @@
 
 Public Class Form1
     Dim arrButtons(6, 6) As Button
-    Dim puzzleGrid(6, 6)
+    Dim puzzleGrid(6, 6) As Integer
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         generateButtons()
+
+        'For r = 1 To 6
+        '    For c = 1 To 6
+        '        puzzleGrid(r, c) = 1
+        '    Next
+        'Next
+
+        initalisepArray()
+        For r = 1 To 6
+            For c = 1 To 6
+                arrButtons(r, c).Text = puzzleGrid(r, c)
+            Next
+        Next
+
+        ListBox1.Items.Add(locateNumberTrios(puzzleGrid))
+    End Sub
+
+    Private Sub initalisepArray()
+        puzzleGrid(1, 1) = 1
+        puzzleGrid(1, 2) = 1
+        puzzleGrid(1, 3) = 0
+        puzzleGrid(1, 4) = 1
+        puzzleGrid(1, 5) = 0
+        puzzleGrid(1, 6) = 0
+        puzzleGrid(2, 1) = 0
+        puzzleGrid(2, 2) = 1
+        puzzleGrid(2, 3) = 1
+        puzzleGrid(2, 4) = 0
+        puzzleGrid(2, 5) = 0
+        puzzleGrid(2, 6) = 1
+        puzzleGrid(3, 1) = 1
+        puzzleGrid(3, 2) = 0
+        puzzleGrid(3, 3) = 1
+        puzzleGrid(3, 4) = 0
+        puzzleGrid(3, 5) = 1
+        puzzleGrid(3, 6) = 0
+        puzzleGrid(4, 1) = 0
+        puzzleGrid(4, 2) = 1
+        puzzleGrid(4, 3) = 0
+        puzzleGrid(4, 4) = 1
+        puzzleGrid(4, 5) = 0
+        puzzleGrid(4, 6) = 1
+        puzzleGrid(5, 1) = 1
+        puzzleGrid(5, 2) = 0
+        puzzleGrid(5, 3) = 0
+        puzzleGrid(5, 4) = 1
+        puzzleGrid(5, 5) = 1
+        puzzleGrid(5, 6) = 0
+        puzzleGrid(6, 1) = 0
+        puzzleGrid(6, 2) = 0
+        puzzleGrid(6, 3) = 1
+        puzzleGrid(6, 4) = 0
+        puzzleGrid(6, 5) = 1
+        puzzleGrid(6, 6) = 1
     End Sub
 
     Private Sub generateButtons()
@@ -28,24 +82,25 @@ Public Class Form1
 
     End Sub
 
-    Private Function locateNumberTrios(pArray(,) As String)
+    Private Function locateNumberTrios(pArray(,) As Integer)
         Dim valid As Boolean
-        valid = False
+        valid = True
 
         For r = 1 To 6
-            For c = 1 To 6
-                If c > 2 Then
-                    If pArray(r, c - 2) = pArray(r, c - 1) = pArray(r, c) Then
+            For c = 3 To 6
+                If c >= 3 Then
+                    If (pArray(r, c - 2) = pArray(r, c - 1) And pArray(r, c - 1) = pArray(r, c)) Then
                         valid = False
                     End If
                 End If
             Next
         Next
 
-        For r = 1 To 6
+
+        For r = 3 To 6
             For c = 1 To 6
-                If r > 2 Then
-                    If pArray(r - 2, c) = pArray(r - 1, c) = pArray(r, c) Then
+                If r >= 3 Then
+                    If (pArray(r - 2, c) = pArray(r - 1, c) And pArray(r - 1, c) = pArray(r, c)) Then
                         valid = False
                     End If
                 End If
@@ -118,17 +173,17 @@ Public Class Form1
 
     End Sub
 
-    Private Function checkgrid(puzzleGrid) As Boolean
-        Dim total As Integer = 0
-        For i = 1 To 6
-            For j = 1 To 6
-                total += puzzleGrid(i, j)
-            Next i
-            If total = 3 * 6 Then
-                Return True
-            Else
-                Return False
-            End If
+    'Private Function checkgrid(puzzleGrid) As Boolean
+    '    Dim total As Integer = 0
+    '    For i = 1 To 6
+    '        For j = 1 To 6
+    '            total += puzzleGrid(i, j)
+    '        Next i
+    '        If total = 3 * 6 Then
+    '            Return True
+    '        Else
+    '            Return False
+    '        End If
 
-    End Function
+    'End Function
 End Class
