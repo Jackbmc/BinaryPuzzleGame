@@ -88,12 +88,12 @@ Public Class Form1
         For i = 1 To 6
             For j = 1 To 6
                 total += puzzleGrid(i, j)
-            Next i
+            Next j
+        Next i
             If total = 3 * 6 Then
                 Return True
             Else
                 Return False
             End If
-
     End Function
 End Class
