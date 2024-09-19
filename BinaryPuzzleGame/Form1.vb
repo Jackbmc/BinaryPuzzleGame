@@ -2,8 +2,8 @@
 
 Public Class Form1
     Dim arrButtons(6, 6) As Button
+    Dim puzzleGrid(6, 6)
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim puzzleGrid(6, 6)
         generateButtons()
     End Sub
 
@@ -52,6 +52,14 @@ Public Class Form1
                 End If
             Next j
         Next i
+    End Sub
+
+    Private Sub checkAdjacent()
+        For x = 1 To 6
+            For y = 1 To 6
+
+            Next
+        Next
     End Sub
 
     Private Sub loadPuzzle()
