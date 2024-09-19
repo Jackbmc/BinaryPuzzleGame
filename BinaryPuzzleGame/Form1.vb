@@ -2,8 +2,8 @@
 
 Public Class Form1
     Dim arrButtons(6, 6) As Button
+    Dim puzzleGrid(6, 6)
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim puzzleGrid(6, 6)
         generateButtons()
     End Sub
 
@@ -27,6 +27,33 @@ Public Class Form1
         Next column
 
     End Sub
+
+    Private Function locateNumberTrios(pArray(,) As String)
+        Dim valid As Boolean
+        valid = False
+
+        For r = 1 To 6
+            For c = 1 To 6
+                If c > 2 Then
+                    If pArray(r, c - 2) = pArray(r, c - 1) = pArray(r, c) Then
+                        valid = False
+                    End If
+                End If
+            Next
+        Next
+
+        For r = 1 To 6
+            For c = 1 To 6
+                If r > 2 Then
+                    If pArray(r - 2, c) = pArray(r - 1, c) = pArray(r, c) Then
+                        valid = False
+                    End If
+                End If
+            Next
+        Next
+
+        Return valid
+    End Function
 
     Dim cX, cY
     Private Sub Button_Click(sender As Object, e As System.EventArgs)
@@ -52,6 +79,14 @@ Public Class Form1
                 End If
             Next j
         Next i
+    End Sub
+
+    Private Sub checkAdjacent()
+        For x = 1 To 6
+            For y = 1 To 6
+
+            Next
+        Next
     End Sub
 
     Private Sub loadPuzzle()
