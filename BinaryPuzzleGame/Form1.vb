@@ -28,6 +28,33 @@ Public Class Form1
 
     End Sub
 
+    Private Function locateNumberTrios(pArray(,) As String)
+        Dim valid As Boolean
+        valid = False
+
+        For r = 1 To 6
+            For c = 1 To 6
+                If c > 2 Then
+                    If pArray(r, c - 2) = pArray(r, c - 1) = pArray(r, c) Then
+                        valid = False
+                    End If
+                End If
+            Next
+        Next
+
+        For r = 1 To 6
+            For c = 1 To 6
+                If r > 2 Then
+                    If pArray(r - 2, c) = pArray(r - 1, c) = pArray(r, c) Then
+                        valid = False
+                    End If
+                End If
+            Next
+        Next
+
+        Return valid
+    End Function
+
     Dim cX, cY
     Private Sub Button_Click(sender As Object, e As System.EventArgs)
         Dim clickedButton As Button = CType(sender, Button)
@@ -96,7 +123,8 @@ Public Class Form1
         For i = 1 To 6
             For j = 1 To 6
                 total += puzzleGrid(i, j)
-            Next i
+            Next j
+        Next i
             If total = 3 * 6 Then
                 Return True
             Else
