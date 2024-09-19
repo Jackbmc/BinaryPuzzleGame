@@ -5,14 +5,8 @@ Public Class Form1
     Dim puzzleGrid(6, 6) As Integer
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         generateButtons()
-
-        'For r = 1 To 6
-        '    For c = 1 To 6
-        '        puzzleGrid(r, c) = 1
-        '    Next
-        'Next
-
         initalisepArray()
+
         For r = 1 To 6
             For c = 1 To 6
                 arrButtons(r, c).Text = puzzleGrid(r, c)
@@ -20,6 +14,7 @@ Public Class Form1
         Next
 
         ListBox1.Items.Add(locateNumberTrios(puzzleGrid))
+        ListBox1.Items.Add(checkRowGrid(puzzleGrid))
     End Sub
 
     Private Sub initalisepArray()
@@ -105,6 +100,44 @@ Public Class Form1
                     End If
                 End If
             Next
+        Next
+
+        Return valid
+    End Function
+
+    Private Function checkRowGrid(pArray(,) As Integer)
+        Dim valid As Boolean
+        Dim counter As Integer
+        Dim initial As Integer
+        valid = True
+
+        counter = 0
+
+        For r = 1 To 6
+            For c = 1 To 6
+                initial = pArray(r, 1)
+                If pArray(r, c) = initial Then
+                    counter = counter + 1
+                End If
+            Next
+            If counter > 3 Then
+                valid = False
+            End If
+            counter = 0
+        Next
+
+        counter = 0
+        For c = 1 To 6
+            For r = 1 To 6
+                initial = pArray(1, c)
+                If pArray(c, r) = initial Then
+                    counter = counter + 1
+                End If
+            Next
+            If counter > 3 Then
+                valid = False
+            End If
+            counter = 0
         Next
 
         Return valid
