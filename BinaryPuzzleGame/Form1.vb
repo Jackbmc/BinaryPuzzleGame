@@ -53,15 +53,16 @@
         Dim totalrow(6) = 0
         For i = 1 To 6
             For j = 1 To 6
-                total(i) += grid(i, j)
+                totalrow(i) += grid(i, j)
             Next j
         Next i
         Dim totalcolum(6) = 0
         For i = 1 To 6
             For j = 1 To 6
-                total(i) += grid(j, i)
+                totalcolum(i) += grid(j, i)
             Next j
         Next i
 
+        Return totalrow, totalcolum
     End Sub
 End Class
