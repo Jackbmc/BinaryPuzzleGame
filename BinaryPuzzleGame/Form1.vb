@@ -3,7 +3,7 @@
 Public Class Form1
     Dim arrButtons(6, 6) As Button
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim grid(6, 6)
+        Dim puzzleGrid(6, 6)
         generateButtons()
     End Sub
 
