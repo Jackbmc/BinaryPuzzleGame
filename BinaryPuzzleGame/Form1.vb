@@ -178,7 +178,7 @@ Public Class Form1
         Dim temp
         For x = 1 To 6
             For y = 1 To 4
-                If puzzleGrid(x, y) <> "" AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 1) And puzzleGrid(x, y) = puzzleGrid(x, y + 2) Then
+                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 1) And puzzleGrid(x, y) = puzzleGrid(x, y + 2) Then
                     MsgBox("hor invalid")
                     isValid = False
                 End If
@@ -187,7 +187,7 @@ Public Class Form1
         Next
         For x = 1 To 4
             For y = 1 To 6
-                If puzzleGrid(x, y) <> "" AndAlso puzzleGrid(x, y) = puzzleGrid(x + 1, y) And puzzleGrid(x, y) = puzzleGrid(x + 2, y) Then
+                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x + 1, y) And puzzleGrid(x, y) = puzzleGrid(x + 2, y) Then
                     MsgBox("vert invalid")
                     isValid = False
                 End If
