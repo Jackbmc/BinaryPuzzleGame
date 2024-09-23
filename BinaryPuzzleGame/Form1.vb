@@ -174,13 +174,13 @@ Public Class Form1
         Next i
     End Sub
 
-    Private Sub checkAdjacent()
-        Dim temp
+    Private Function checkAdjacent()
+        Dim valid As Boolean = True
         For x = 1 To 6
             For y = 1 To 4
                 If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 1) And puzzleGrid(x, y) = puzzleGrid(x, y + 2) Then
-                    MsgBox("hor invalid")
-                    isValid = False
+                    ListBox1.Items.Add("hor invalid")
+                    valid = False
                 End If
 
             Next
@@ -188,12 +188,13 @@ Public Class Form1
         For x = 1 To 4
             For y = 1 To 6
                 If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x + 1, y) And puzzleGrid(x, y) = puzzleGrid(x + 2, y) Then
-                    MsgBox("vert invalid")
-                    isValid = False
+                    ListBox1.Items.Add("vert invalid")
+                    valid = False
                 End If
             Next
         Next
-    End Sub
+        Return valid
+    End Function
 
     Private Sub loadPuzzle()
         Dim filepath As String = "puzzle.txt"
@@ -219,6 +220,14 @@ Public Class Form1
             Next i
         End If
     End Sub
+
+    Private Function generatePuzzle()
+        For x = 1 To 6
+            For y = 1 To 6
+
+            Next
+        Next
+    End Function
 
     Private Sub locatePairs()
 
