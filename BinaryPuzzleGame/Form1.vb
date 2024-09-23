@@ -14,8 +14,10 @@ Public Class Form1
             Next
         Next
 
-        ListBox1.Items.Add(locateNumberTrios(puzzleGrid))
-        ListBox1.Items.Add(checkRowGrid(puzzleGrid))
+        'ListBox1.Items.Add(locateNumberTrios(puzzleGrid))
+        'ListBox1.Items.Add(checkRowGrid(puzzleGrid))
+        ListBox1.Items.Add("sim" & checkSimilarity(puzzleGrid))
+
     End Sub
 
     Private Sub initalisepArray()
@@ -157,10 +159,75 @@ Public Class Form1
             arrButtons(cX, cY).Text = "1"
         End If
 
-        puzzleGrid(cX, cY) = arrButtons(cX, cY).Text
+        puzzleGrid(cX, cY) = Int(arrButtons(cX, cY).Text)
 
-        checkAdjacent()
+        'checkAdjacent()
+        'locateNumberTrios(puzzleGrid)
+        'checkRowGrid(puzzleGrid)
+        ListBox1.Items.Add("sim" & checkSimilarity(puzzleGrid))
     End Sub
+
+    Private Function checkSimilarity(puzzleGrid(,) As Integer)
+        Dim valid As Boolean
+        Dim r1 As String
+        Dim r2 As String
+        Dim r3 As String
+        Dim r4 As String
+        Dim r5 As String
+        Dim r6 As String
+
+        Dim c1 As String
+        Dim c2 As String
+        Dim c3 As String
+        Dim c4 As String
+        Dim c5 As String
+        Dim c6 As String
+
+        valid = True
+
+        For c = 1 To 6
+            r1 = r1 & puzzleGrid(1, c)
+            r2 = r2 & puzzleGrid(2, c)
+            r3 = r3 & puzzleGrid(3, c)
+            r4 = r4 & puzzleGrid(4, c)
+            r5 = r5 & puzzleGrid(5, c)
+            r6 = r6 & puzzleGrid(6, c)
+        Next
+
+        For c = 1 To 6
+            c1 = c1 & puzzleGrid(c, 1)
+            c2 = c2 & puzzleGrid(c, 2)
+            c3 = c3 & puzzleGrid(c, 3)
+            c4 = c4 & puzzleGrid(c, 4)
+            c5 = c5 & puzzleGrid(c, 5)
+            c6 = c6 & puzzleGrid(c, 6)
+        Next
+        ' Compare the strings for similarity
+        Dim strings() As String = {r1, r2, r3, r4, r5, r6}
+
+        For i = 0 To strings.Length - 1
+            For j = i + 1 To strings.Length - 1
+                If strings(i) = strings(j) Then
+                    ' Return False if any two strings are the same
+                    valid = False
+                End If
+            Next
+        Next
+
+        Dim strings12() As String = {c1, c2, c3, c4, c5, c6}
+
+        For i = 0 To strings12.Length - 1
+            For j = i + 1 To strings12.Length - 1
+                If strings12(i) = strings12(j) Then
+                    valid = False
+                End If
+            Next
+        Next
+
+
+        ' Return the result
+        Return valid
+    End Function
 
     Private Sub getPos(clickedButton As Button, ByRef x As Integer, ByRef y As Integer)
         'Gets the position of the clicked button and sets the x and y values of said button
