@@ -246,11 +246,9 @@ Public Class Form1
         ' Check for horizontal adjacent triples
         For x = 1 To 6
             For y = 1 To 4
-                ' Check if there are three consecutive identical numbers in a row
-                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 1) AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 2) Then
-                    ' If invalid pattern is found, mark as invalid and exit early
-                    isjValid = False
-                    Exit Function
+                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 1) And puzzleGrid(x, y) = puzzleGrid(x, y + 2) Then
+                    MsgBox("hor invalid")
+                    isValid = False
                 End If
             Next
         Next
@@ -258,19 +256,13 @@ Public Class Form1
         ' Check for vertical adjacent triples
         For x = 1 To 4
             For y = 1 To 6
-                ' Check if there are three consecutive identical numbers in a column
-                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x + 1, y) AndAlso puzzleGrid(x, y) = puzzleGrid(x + 2, y) Then
-                    ' If invalid pattern is found, mark as invalid and exit early
-                    isjValid = False
-                    Exit Function
+                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x + 1, y) And puzzleGrid(x, y) = puzzleGrid(x + 2, y) Then
+                    MsgBox("vert invalid")
+                    isValid = False
                 End If
             Next
         Next
-
-        ' Return the result of the validity check
-        Return isjValid
-    End Function
-
+    End Sub
 
     Private Sub loadPuzzle()
         Dim filepath As String = "puzzle.txt"
@@ -297,8 +289,21 @@ Public Class Form1
         End If
     End Sub
 
+    Private Function generatePuzzle()
+        For x = 1 To 6
+            For y = 1 To 6
+
+            Next
+        Next
+    End Function
+
     Private Sub locatePairs()
 
+    End Sub
+
+    Private Sub btnTofrmStart_Click(sender As Object, e As EventArgs) Handles btnTofrmStart.Click
+        Me.Hide()
+        frmStart.Show()
     End Sub
 
     'Private Function checkgrid(puzzleGrid) As Boolean
