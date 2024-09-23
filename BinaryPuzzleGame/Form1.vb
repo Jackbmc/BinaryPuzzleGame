@@ -161,10 +161,9 @@ Public Class Form1
 
         puzzleGrid(cX, cY) = Int(arrButtons(cX, cY).Text)
 
-        'checkAdjacent()
-        'locateNumberTrios(puzzleGrid)
-        'checkRowGrid(puzzleGrid)
-        ListBox1.Items.Add("sim" & checkSimilarity(puzzleGrid))
+        If checkAdjacent() And locateNumberTrios(puzzleGrid) And checkRowGrid(puzzleGrid) And checkSimilarity(puzzleGrid) Then
+            MsgBox("COMPLETE THIS IS VALID")
+        End If
     End Sub
 
     Private Function checkSimilarity(puzzleGrid(,) As Integer)
@@ -241,26 +240,37 @@ Public Class Form1
         Next i
     End Sub
 
-    Private Sub checkAdjacent()
-        Dim temp
+    Private Function checkAdjacent() As Boolean
+        Dim isjValid As Boolean = True ' Start with assuming the grid is valid
+
+        ' Check for horizontal adjacent triples
         For x = 1 To 6
             For y = 1 To 4
-                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 1) And puzzleGrid(x, y) = puzzleGrid(x, y + 2) Then
-                    MsgBox("hor invalid")
-                    isValid = False
+                ' Check if there are three consecutive identical numbers in a row
+                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 1) AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 2) Then
+                    ' If invalid pattern is found, mark as invalid and exit early
+                    isjValid = False
+                    Exit Function
                 End If
-
             Next
         Next
+
+        ' Check for vertical adjacent triples
         For x = 1 To 4
             For y = 1 To 6
-                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x + 1, y) And puzzleGrid(x, y) = puzzleGrid(x + 2, y) Then
-                    MsgBox("vert invalid")
-                    isValid = False
+                ' Check if there are three consecutive identical numbers in a column
+                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x + 1, y) AndAlso puzzleGrid(x, y) = puzzleGrid(x + 2, y) Then
+                    ' If invalid pattern is found, mark as invalid and exit early
+                    isjValid = False
+                    Exit Function
                 End If
             Next
         Next
-    End Sub
+
+        ' Return the result of the validity check
+        Return isjValid
+    End Function
+
 
     Private Sub loadPuzzle()
         Dim filepath As String = "puzzle.txt"
