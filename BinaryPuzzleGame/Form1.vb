@@ -224,6 +224,11 @@ Public Class Form1
 
     End Sub
 
+    Private Sub btnTofrmStart_Click(sender As Object, e As EventArgs) Handles btnTofrmStart.Click
+        Me.Hide()
+        frmStart.Show()
+    End Sub
+
     'Private Function checkgrid(puzzleGrid) As Boolean
     '    Dim total As Integer = 0
     '    For i = 1 To 6
