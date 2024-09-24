@@ -8,4 +8,9 @@
         Me.BackgroundImage = Image.FromFile("C:\Users\Nicho\source\repos\BinaryPuzzleGame\BinaryPuzzleGame\startBG.png")
         Me.BackgroundImageLayout = ImageLayout.Stretch
     End Sub
+
+    Private Sub btnHelp_Click(sender As Object, e As EventArgs) Handles btnHelp.Click
+        Me.Hide()
+        frmHelp.Show()
+    End Sub
 End Class
