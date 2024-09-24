@@ -3,324 +3,275 @@
 Public Class Form1
     Dim arrButtons(6, 6) As Button
     Dim puzzleGrid(6, 6) As Integer
-    Dim isValid As Boolean = False
+    Dim lstStatus As New ListBox
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         generateButtons()
-        initalisepArray()
-
-        For r = 1 To 6
-            For c = 1 To 6
-                arrButtons(r, c).Text = puzzleGrid(r, c)
-            Next
-        Next
-
-        If checkAdjacent() And locateNumberTrios(puzzleGrid) And checkRowGrid(puzzleGrid) And checkSimilarity(puzzleGrid) Then
-            MsgBox("COMPLETE THIS IS VALID")
-        End If
+        setupListBox()
+        startNewGame()
     End Sub
 
-    Private Sub initalisepArray()
-        puzzleGrid(1, 1) = 1
-        puzzleGrid(1, 2) = 1
-        puzzleGrid(1, 3) = 0
-        puzzleGrid(1, 4) = 1
-        puzzleGrid(1, 5) = 0
-        puzzleGrid(1, 6) = 0
-        puzzleGrid(2, 1) = 0
-        puzzleGrid(2, 2) = 1
-        puzzleGrid(2, 3) = 1
-        puzzleGrid(2, 4) = 0
-        puzzleGrid(2, 5) = 0
-        puzzleGrid(2, 6) = 1
-        puzzleGrid(3, 1) = 1
-        puzzleGrid(3, 2) = 0
-        puzzleGrid(3, 3) = 1
-        puzzleGrid(3, 4) = 0
-        puzzleGrid(3, 5) = 1
-        puzzleGrid(3, 6) = 0
-        puzzleGrid(4, 1) = 0
-        puzzleGrid(4, 2) = 1
-        puzzleGrid(4, 3) = 0
-        puzzleGrid(4, 4) = 1
-        puzzleGrid(4, 5) = 0
-        puzzleGrid(4, 6) = 1
-        puzzleGrid(5, 1) = 1
-        puzzleGrid(5, 2) = 0
-        puzzleGrid(5, 3) = 0
-        puzzleGrid(5, 4) = 1
-        puzzleGrid(5, 5) = 1
-        puzzleGrid(5, 6) = 0
-        puzzleGrid(6, 1) = 0
-        puzzleGrid(6, 2) = 0
-        puzzleGrid(6, 3) = 1
-        puzzleGrid(6, 4) = 0
-        puzzleGrid(6, 5) = 1
-        puzzleGrid(6, 6) = 1
+    Private Sub setupListBox()
+        lstStatus.Location = New Point(50, 500)
+        lstStatus.Size = New Size(400, 100)
+        Me.Controls.Add(lstStatus)
+
+        Dim btnNewGame As New Button
+        btnNewGame.Text = "New Game"
+        btnNewGame.Location = New Point(50, 610)
+        AddHandler btnNewGame.Click, AddressOf btnNewGame_Click
+        Me.Controls.Add(btnNewGame)
+    End Sub
+
+    Private Sub btnNewGame_Click(sender As Object, e As EventArgs)
+        startNewGame()
+    End Sub
+
+    Private Sub startNewGame()
+        puzzleGrid = generatePuzzle()
+        updateButtonsFromGrid()
+        updateStatus("New game started. Good luck!")
     End Sub
 
     Private Sub generateButtons()
-        'generate each square on the chessboard as a Button
         For row = 1 To 6
             For column = 1 To 6
-                Dim Button = New Button
-                arrButtons(row, column) = Button
-
-                Button.Name = Format(row) + Format(column)
-                Button.Parent = Me
-                Button.Width = 60
-                Button.Height = 60
-                Button.Visible = True
-                Button.Left = row * 30
-                Button.Location = New Point(2 * column * 30 + 100, 2 * row * 30 + 100)
-
-                AddHandler Button.Click, AddressOf Button_Click
+                Dim button = New Button
+                arrButtons(row, column) = button
+                button.Name = $"btn{row}{column}"
+                button.Parent = Me
+                button.Width = 60
+                button.Height = 60
+                button.Visible = True
+                button.Location = New Point(column * 70, row * 70)
+                AddHandler button.Click, AddressOf Button_Click
             Next column
         Next row
-
     End Sub
 
-    Private Function locateNumberTrios(pArray(,) As Integer)
-        Dim valid As Boolean
-        valid = True
+    Private Function generatePuzzle() As Integer(,)
+        Dim newPuzzle(6, 6) As Integer
+        Dim rnd As New Random()
+        Dim attempts As Integer = 0
 
-        For r = 1 To 6
-            For c = 3 To 6
-                If c >= 3 Then
-                    If (pArray(r, c - 2) = pArray(r, c - 1) And pArray(r, c - 1) = pArray(r, c)) Then
-                        valid = False
-                    End If
-                End If
+        Do
+            For i As Integer = 1 To 6
+                For j As Integer = 1 To 6
+                    newPuzzle(i, j) = -1
+                Next
             Next
-        Next
 
-
-        For r = 3 To 6
-            For c = 1 To 6
-                If r >= 3 Then
-                    If (pArray(r - 2, c) = pArray(r - 1, c) And pArray(r - 1, c) = pArray(r, c)) Then
-                        valid = False
+            For i As Integer = 1 To 6
+                For j As Integer = 1 To 6
+                    If rnd.Next(100) < 40 Then
+                        newPuzzle(i, j) = rnd.Next(2)
                     End If
-                End If
+                Next
             Next
-        Next
 
-        Return valid
+            attempts += 1
+            If attempts > 1000 Then
+                attempts = 0
+            End If
+
+        Loop Until isValidPuzzle(newPuzzle) AndAlso isSolvable(newPuzzle)
+
+        Return newPuzzle
     End Function
 
-    Private Function checkRowGrid(pArray(,) As Integer)
-        Dim valid As Boolean
-        Dim counter As Integer
-        Dim initial As Integer
-        valid = True
-
-        counter = 0
-
+    Private Sub updateButtonsFromGrid()
         For r = 1 To 6
             For c = 1 To 6
-                initial = pArray(r, 1)
-                If pArray(r, c) = initial Then
-                    counter = counter + 1
+                If puzzleGrid(r, c) = -1 Then
+                    arrButtons(r, c).Text = ""
+                    arrButtons(r, c).Enabled = True
+                Else
+                    arrButtons(r, c).Text = puzzleGrid(r, c).ToString()
+                    arrButtons(r, c).Enabled = False
                 End If
             Next
-            If counter > 3 Or counter < 3 Then
-                valid = False
-            End If
-            counter = 0
         Next
+    End Sub
 
-        counter = 0
-        For c = 1 To 6
-            For r = 1 To 6
-                initial = pArray(1, c)
-                If pArray(c, r) = initial Then
-                    counter = counter + 1
-                End If
-            Next
-            If counter > 3 Or counter < 3 Then
-                valid = False
-            End If
-            counter = 0
-        Next
-
-        Return valid
-    End Function
-
-    Dim cX, cY
-    Private Sub Button_Click(sender As Object, e As System.EventArgs)
+    Private Sub Button_Click(sender As Object, e As EventArgs)
         Dim clickedButton As Button = CType(sender, Button)
-        getPos(clickedButton, cX, cY)
+        Dim r, c As Integer
+        getPos(clickedButton, r, c)
 
-        If arrButtons(cX, cY).Text = "1" Then
-            arrButtons(cX, cY).Text = "0"
-        ElseIf arrButtons(cX, cY).Text = "0" Then
-            arrButtons(cX, cY).Text = "1"
+        If puzzleGrid(r, c) = -1 Then
+            clickedButton.Text = "0"
+            puzzleGrid(r, c) = 0
+        ElseIf puzzleGrid(r, c) = 0 Then
+            clickedButton.Text = "1"
+            puzzleGrid(r, c) = 1
         Else
-            arrButtons(cX, cY).Text = "1"
+            clickedButton.Text = "0"
+            puzzleGrid(r, c) = 0
         End If
 
-        puzzleGrid(cX, cY) = Int(arrButtons(cX, cY).Text)
-
-        If checkAdjacent() And locateNumberTrios(puzzleGrid) And checkRowGrid(puzzleGrid) And checkSimilarity(puzzleGrid) Then
-            MsgBox("COMPLETE THIS IS VALID")
-        End If
+        checkPuzzleStatus()
     End Sub
-
-    Private Function checkSimilarity(puzzleGrid(,) As Integer)
-        Dim valid As Boolean
-        Dim r1 As String = ""
-        Dim r2 As String = ""
-        Dim r3 As String = ""
-        Dim r4 As String = ""
-        Dim r5 As String = ""
-        Dim r6 As String = ""
-
-        Dim c1 As String = ""
-        Dim c2 As String = ""
-        Dim c3 As String = ""
-        Dim c4 As String = ""
-        Dim c5 As String = ""
-        Dim c6 As String = ""
-
-        valid = True
-
-        For c = 1 To 6
-            r1 = r1 & puzzleGrid(1, c)
-            r2 = r2 & puzzleGrid(2, c)
-            r3 = r3 & puzzleGrid(3, c)
-            r4 = r4 & puzzleGrid(4, c)
-            r5 = r5 & puzzleGrid(5, c)
-            r6 = r6 & puzzleGrid(6, c)
-        Next
-
-        For c = 1 To 6
-            c1 = c1 & puzzleGrid(c, 1)
-            c2 = c2 & puzzleGrid(c, 2)
-            c3 = c3 & puzzleGrid(c, 3)
-            c4 = c4 & puzzleGrid(c, 4)
-            c5 = c5 & puzzleGrid(c, 5)
-            c6 = c6 & puzzleGrid(c, 6)
-        Next
-        ' Compare the strings for similarity
-        Dim strings() As String = {r1, r2, r3, r4, r5, r6}
-
-        For i = 0 To strings.Length - 1
-            For j = i + 1 To strings.Length - 1
-                If strings(i) = strings(j) Then
-                    ' Return False if any two strings are the same
-                    valid = False
-                End If
-            Next
-        Next
-
-        Dim strings12() As String = {c1, c2, c3, c4, c5, c6}
-
-        For i = 0 To strings12.Length - 1
-            For j = i + 1 To strings12.Length - 1
-                If strings12(i) = strings12(j) Then
-                    valid = False
-                End If
-            Next
-        Next
-
-        ' Return the result
-        Return valid
-    End Function
 
     Private Sub getPos(clickedButton As Button, ByRef x As Integer, ByRef y As Integer)
-        'Gets the position of the clicked button and sets the x and y values of said button
         For i = 1 To 6
             For j = 1 To 6
                 If arrButtons(i, j) Is clickedButton Then
                     x = i
                     y = j
+                    Exit Sub
                 End If
             Next j
         Next i
     End Sub
 
+    Private Sub checkPuzzleStatus()
+        If Not checkAdjacent() Then
+            updateStatus("Invalid: More than two adjacent squares with the same number.")
+        ElseIf Not checkRowColumnCounts() Then
+            updateStatus("Invalid: Each row and column must have three 0s and three 1s.")
+        ElseIf Not checkUniqueness() Then
+            updateStatus("Invalid: Each row and column must be unique.")
+        ElseIf isPuzzleComplete() Then
+            updateStatus("Congratulations! Puzzle complete!")
+        Else
+            updateStatus("Valid move. Keep going!")
+        End If
+    End Sub
+
     Private Function checkAdjacent() As Boolean
-        Dim isjValid As Boolean = True ' Start with assuming the grid is valid
-
-        ' Check for horizontal adjacent triples
-        For x = 1 To 6
-            For y = 1 To 4
-                ' Check if there are three consecutive identical numbers in a row
-                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 1) AndAlso puzzleGrid(x, y) = puzzleGrid(x, y + 2) Then
-                    ' If invalid pattern is found, mark as invalid and exit early
-                    isjValid = False
+        For r = 1 To 6
+            For c = 1 To 4
+                If puzzleGrid(r, c) <> -1 AndAlso puzzleGrid(r, c) = puzzleGrid(r, c + 1) AndAlso puzzleGrid(r, c) = puzzleGrid(r, c + 2) Then
+                    Return False
                 End If
             Next
         Next
 
-        ' Check for vertical adjacent triples
-        For x = 1 To 4
-            For y = 1 To 6
-                ' Check if there are three consecutive identical numbers in a column
-                If puzzleGrid(x, y) <> -1 AndAlso puzzleGrid(x, y) = puzzleGrid(x + 1, y) AndAlso puzzleGrid(x, y) = puzzleGrid(x + 2, y) Then
-                    ' If invalid pattern is found, mark as invalid and exit early
-                    isjValid = False
+        For c = 1 To 6
+            For r = 1 To 4
+                If puzzleGrid(r, c) <> -1 AndAlso puzzleGrid(r, c) = puzzleGrid(r + 1, c) AndAlso puzzleGrid(r, c) = puzzleGrid(r + 2, c) Then
+                    Return False
                 End If
             Next
         Next
 
-        ' Return the result of the validity check
-        Return isjValid
+        Return True
     End Function
 
-
-    Private Sub loadPuzzle()
-        Dim filepath As String = "puzzle.txt"
-
-        If File.Exists(filepath) = False Then
-            File.Create(filepath).Dispose()
-        End If
-
-        If File.Exists(filepath) = True Then
-            ' Read the leaderboard data from the file
-            Dim leaderboard As List(Of String) = File.ReadAllLines(filepath).ToList()
-            Dim existingPlayerFound As Boolean = False
-            For i As Integer = 0 To leaderboard.Count - 1
-                Dim playerName As String = leaderboard(i).Substring(0, 3)
-                Dim playerScore As Integer = CInt(leaderboard(i).Substring(4))
-                If playerName = Name Then
-                    ' Update the score if the player already exists in the leaderboard
-                    playerScore = playerScore + 1
-                    leaderboard(i) = playerName & "," & CStr(playerScore)
-                    existingPlayerFound = True
-                    i = leaderboard.Count - 1
-                End If
-            Next i
-        End If
-    End Sub
-
-    Private Function generatePuzzle()
-        For x = 1 To 6
-            For y = 1 To 6
-
+    Private Function checkRowColumnCounts() As Boolean
+        For r = 1 To 6
+            Dim zeros As Integer = 0
+            Dim ones As Integer = 0
+            For c = 1 To 6
+                If puzzleGrid(r, c) = 0 Then zeros += 1
+                If puzzleGrid(r, c) = 1 Then ones += 1
             Next
+            If zeros > 3 Or ones > 3 Then Return False
         Next
+
+        For c = 1 To 6
+            Dim zeros As Integer = 0
+            Dim ones As Integer = 0
+            For r = 1 To 6
+                If puzzleGrid(r, c) = 0 Then zeros += 1
+                If puzzleGrid(r, c) = 1 Then ones += 1
+            Next
+            If zeros > 3 Or ones > 3 Then Return False
+        Next
+
+        Return True
     End Function
 
-    Private Sub locatePairs()
+    Private Function checkUniqueness() As Boolean
+        For r1 = 1 To 5
+            For r2 = r1 + 1 To 6
+                If rowsEqual(r1, r2) Then Return False
+            Next
+        Next
 
+        For c1 = 1 To 5
+            For c2 = c1 + 1 To 6
+                If columnsEqual(c1, c2) Then Return False
+            Next
+        Next
+
+        Return True
+    End Function
+
+    Private Function rowsEqual(r1 As Integer, r2 As Integer) As Boolean
+        For c = 1 To 6
+            If puzzleGrid(r1, c) <> puzzleGrid(r2, c) OrElse puzzleGrid(r1, c) = -1 OrElse puzzleGrid(r2, c) = -1 Then
+                Return False
+            End If
+        Next
+        Return True
+    End Function
+
+    Private Function columnsEqual(c1 As Integer, c2 As Integer) As Boolean
+        For r = 1 To 6
+            If puzzleGrid(r, c1) <> puzzleGrid(r, c2) OrElse puzzleGrid(r, c1) = -1 OrElse puzzleGrid(r, c2) = -1 Then
+                Return False
+            End If
+        Next
+        Return True
+    End Function
+
+    Private Function isPuzzleComplete() As Boolean
+        For r = 1 To 6
+            For c = 1 To 6
+                If puzzleGrid(r, c) = -1 Then Return False
+            Next
+        Next
+        Return True
+    End Function
+
+    Private Sub updateStatus(message As String)
+        lstStatus.Items.Add(message)
+        lstStatus.TopIndex = lstStatus.Items.Count - 1
     End Sub
 
-    Private Sub btnTofrmStart_Click(sender As Object, e As EventArgs) Handles btnTofrmStart.Click
-        Me.Hide()
-        frmStart.Show()
-    End Sub
+    Private Function isValidPuzzle(puzzle As Integer(,)) As Boolean
+        puzzleGrid = puzzle
+        Dim isValid As Boolean = checkAdjacent() AndAlso checkRowColumnCounts() AndAlso checkUniqueness()
+        puzzleGrid = New Integer(6, 6) {}
+        Return isValid
+    End Function
 
-    'Private Function checkgrid(puzzleGrid) As Boolean
-    '    Dim total As Integer = 0
-    '    For i = 1 To 6
-    '        For j = 1 To 6
-    '            total += puzzleGrid(i, j)
-    '        Next i
-    '        If total = 3 * 6 Then
-    '            Return True
-    '        Else
-    '            Return False
-    '        End If
+    Private Function isSolvable(puzzle As Integer(,)) As Boolean
+        Dim tempPuzzle(6, 6) As Integer
+        Array.Copy(puzzle, tempPuzzle, puzzle.Length)
+        Return solvePuzzle(tempPuzzle)
+    End Function
 
-    'End Function
+    Private Function solvePuzzle(ByRef puzzle As Integer(,)) As Boolean
+        Dim r, c As Integer
+        If Not findEmptyCell(puzzle, r, c) Then
+            Return True
+        End If
+
+        For num As Integer = 0 To 1
+            puzzle(r, c) = num
+            If isValidPuzzle(puzzle) Then
+                If solvePuzzle(puzzle) Then
+                    Return True
+                End If
+            End If
+            puzzle(r, c) = -1
+        Next
+
+        Return False
+    End Function
+
+    Private Function findEmptyCell(puzzle As Integer(,), ByRef row As Integer, ByRef col As Integer) As Boolean
+        For r As Integer = 1 To 6
+            For c As Integer = 1 To 6
+                If puzzle(r, c) = -1 Then
+                    row = r
+                    col = c
+                    Return True
+                End If
+            Next
+        Next
+        Return False
+    End Function
 End Class

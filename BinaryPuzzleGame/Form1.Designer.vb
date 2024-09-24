@@ -22,36 +22,28 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        ListBox1 = New ListBox()
-        btnTofrmStart = New Button()
+        'ListBox1 = New ListBox()
         SuspendLayout()
-        ' 
-        ' ListBox1
-        ' 
-        ListBox1.FormattingEnabled = True
-        ListBox1.Location = New Point(306, 407)
-        ListBox1.Margin = New Padding(2, 2, 2, 2)
-        ListBox1.Name = "ListBox1"
-        ListBox1.Size = New Size(287, 224)
-        ListBox1.TabIndex = 0
-        ' 
-        ' btnTofrmStart
-        ' 
-        btnTofrmStart.Location = New Point(99, 580)
-        btnTofrmStart.Name = "btnTofrmStart"
-        btnTofrmStart.Size = New Size(94, 29)
-        btnTofrmStart.TabIndex = 1
-        btnTofrmStart.Text = "To frmStart"
-        btnTofrmStart.UseVisualStyleBackColor = True
+        '' 
+        '' ListBox1
+        '' 
+        'ListBox1.FormattingEnabled = True
+        'ListBox1.ItemHeight = 25
+        'ListBox1.Location = New Point(382, 509)
+        'ListBox1.Margin = New Padding(2)
+        'ListBox1.Name = "ListBox1"
+        'ListBox1.Size = New Size(358, 279)
+        'ListBox1.TabIndex = 0
         ' 
         ' Form1
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(10.0F, 25.0F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(684, 617)
+        ClientSize = New Size(855, 771)
+        Controls.Add(Button1)
         Controls.Add(btnTofrmStart)
         Controls.Add(ListBox1)
-        Margin = New Padding(2, 2, 2, 2)
+        Margin = New Padding(2)
         Name = "Form1"
         Text = "Form1"
         ResumeLayout(False)
@@ -59,5 +51,6 @@ Partial Class Form1
 
     Friend WithEvents ListBox1 As ListBox
     Friend WithEvents btnTofrmStart As Button
+    Friend WithEvents Button1 As Button
 
 End Class

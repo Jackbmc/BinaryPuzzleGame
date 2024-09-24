@@ -5,7 +5,7 @@
     End Sub
 
     Private Sub frmStart_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.BackgroundImage = Image.FromFile("C:\Users\Nicho\source\repos\BinaryPuzzleGame\BinaryPuzzleGame\startBG.png")
+        'Me.BackgroundImage = Image.FromFile("C:\Users\Nicho\source\repos\BinaryPuzzleGame\BinaryPuzzleGame\startBG.png")
         Me.BackgroundImageLayout = ImageLayout.Stretch
     End Sub
 End Class
