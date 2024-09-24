@@ -29,10 +29,10 @@ Partial Class Form1
         ' ListBox1
         ' 
         ListBox1.FormattingEnabled = True
-        ListBox1.Location = New Point(306, 407)
-        ListBox1.Margin = New Padding(2, 2, 2, 2)
+        ListBox1.Location = New Point(306, 547)
+        ListBox1.Margin = New Padding(2)
         ListBox1.Name = "ListBox1"
-        ListBox1.Size = New Size(287, 224)
+        ListBox1.Size = New Size(287, 84)
         ListBox1.TabIndex = 0
         ' 
         ' btnTofrmStart
@@ -41,7 +41,7 @@ Partial Class Form1
         btnTofrmStart.Name = "btnTofrmStart"
         btnTofrmStart.Size = New Size(94, 29)
         btnTofrmStart.TabIndex = 1
-        btnTofrmStart.Text = "To frmStart"
+        btnTofrmStart.Text = "Menu"
         btnTofrmStart.UseVisualStyleBackColor = True
         ' 
         ' Form1
@@ -51,7 +51,7 @@ Partial Class Form1
         ClientSize = New Size(684, 617)
         Controls.Add(btnTofrmStart)
         Controls.Add(ListBox1)
-        Margin = New Padding(2, 2, 2, 2)
+        Margin = New Padding(2)
         Name = "Form1"
         Text = "Form1"
         ResumeLayout(False)
